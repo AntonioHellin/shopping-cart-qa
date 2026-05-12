@@ -3,6 +3,7 @@ import { ProductCatalog } from '@features/product-catalog/ProductCatalog'
 import { ShoppingCart } from '@features/shopping-cart/ShoppingCart'
 import { PRODUCTS } from '@shared/data/products'
 import type { Product, CartItem } from '@shared/types'
+import * as Sentry from '@sentry/react'
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
@@ -29,6 +30,19 @@ function App() {
 
   const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
+  // 🔥 Test Error Button - Demonstrates Sentry error tracking
+  const handleTestError = () => {
+    // Add breadcrumb before throwing error
+    Sentry.addBreadcrumb({
+      message: 'User clicked "Test Error" button',
+      category: 'user.action',
+      level: 'info',
+    })
+
+    // Throw error that will be captured by Sentry
+    throw new Error('This is a test error from Sentry! Check your dashboard.')
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100">
       <header className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-indigo-100 sticky top-0 z-10">
@@ -41,6 +55,16 @@ function App() {
               <p className="text-gray-600 mt-1 text-sm">Your one-stop shop for tech products</p>
             </div>
             <div className="flex items-center gap-4">
+              {/* 🔥 Sentry Test Button - Only visible in development */}
+              {import.meta.env.DEV && (
+                <button
+                  onClick={handleTestError}
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-colors shadow-md"
+                  title="Test Sentry error tracking"
+                >
+                  🔥 Test Error
+                </button>
+              )}
               <div className="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full font-semibold text-sm">
                 {itemCount} items
               </div>
