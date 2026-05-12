@@ -5,10 +5,10 @@ interface CartSummaryProps {
 }
 
 export function CartSummary({ subtotal }: CartSummaryProps) {
-  // Business rule: 15% discount for orders $100+
+  // ❌ CODE SMELL: Magic numbers - ¿Qué significan 100, 0.15?
   let discount = 0
   if (subtotal >= 100) {
-    discount = subtotal * 0.15
+    discount = subtotal * 0.15  // 15% discount for orders $100+
   }
   const total = subtotal - discount
 
