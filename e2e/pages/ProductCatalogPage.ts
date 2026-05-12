@@ -9,7 +9,8 @@ export class ProductCatalogPage extends BasePage {
   constructor(page: Page) {
     super(page)
     this.catalogSection = page.locator('section').first()
-    this.productCards = page.locator('.bg-white.p-6.rounded-xl')
+    // More specific selector to avoid matching login demo
+    this.productCards = this.catalogSection.locator('.bg-white.p-6.rounded-xl')
   }
 
   // Actions

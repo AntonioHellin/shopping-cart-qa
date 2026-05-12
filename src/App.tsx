@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ProductCatalog } from '@features/product-catalog/ProductCatalog'
 import { ShoppingCart } from '@features/shopping-cart/ShoppingCart'
+import { LoginDemo } from './features/auth/LoginDemo'
 import { PRODUCTS } from '@shared/data/products'
 import type { Product, CartItem } from '@shared/types'
 import * as Sentry from '@sentry/react'
@@ -75,7 +76,17 @@ function App() {
 
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <ProductCatalog products={PRODUCTS} onAddToCart={handleAddToCart} />
+          <div className="lg:col-span-2 space-y-8">
+            <ProductCatalog products={PRODUCTS} onAddToCart={handleAddToCart} />
+
+            {/* 🔐 Authentication Demo - Educational purposes only */}
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                🔐 Authentication Demo
+              </h2>
+              <LoginDemo />
+            </div>
+          </div>
           <ShoppingCart items={cartItems} onRemoveItem={handleRemoveItem} />
         </div>
       </main>
