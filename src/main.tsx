@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
@@ -13,6 +13,16 @@ validateEnv()
 // 🔍 Initialize Sentry error tracking
 // Configuration is in src/infrastructure/sentry.ts
 initializeSentry()
+
+// ♿ Initialize axe-core accessibility testing in development
+if (import.meta.env.DEV) {
+  import('@axe-core/react').then((axe) => {
+    import('react-dom').then((ReactDOM) => {
+      axe.default(React, ReactDOM, 1000)
+      console.log('♿ axe-core accessibility testing enabled')
+    })
+  })
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

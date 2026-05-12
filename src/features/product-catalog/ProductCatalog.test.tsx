@@ -30,7 +30,7 @@ describe('ProductCatalog Integration', () => {
   it('should render correct number of add to cart buttons', () => {
     render(<ProductCatalog products={mockProducts} onAddToCart={vi.fn()} />)
 
-    const buttons = screen.getAllByRole('button', { name: /add to cart/i })
+    const buttons = screen.getAllByRole('button', { name: /add.*to cart/i })
     expect(buttons).toHaveLength(3)
   })
 
@@ -40,7 +40,7 @@ describe('ProductCatalog Integration', () => {
 
     render(<ProductCatalog products={mockProducts} onAddToCart={onAddToCart} />)
 
-    const buttons = screen.getAllByRole('button', { name: /add to cart/i })
+    const buttons = screen.getAllByRole('button', { name: /add.*to cart/i })
     await user.click(buttons[0])
 
     expect(onAddToCart).toHaveBeenCalledWith(mockProducts[0])
@@ -53,7 +53,7 @@ describe('ProductCatalog Integration', () => {
 
     render(<ProductCatalog products={mockProducts} onAddToCart={onAddToCart} />)
 
-    const buttons = screen.getAllByRole('button', { name: /add to cart/i })
+    const buttons = screen.getAllByRole('button', { name: /add.*to cart/i })
 
     await user.click(buttons[0]) // Laptop
     await user.click(buttons[1]) // Mouse
@@ -71,7 +71,7 @@ describe('ProductCatalog Integration', () => {
 
     render(<ProductCatalog products={mockProducts} onAddToCart={onAddToCart} />)
 
-    const firstButton = screen.getAllByRole('button', { name: /add to cart/i })[0]
+    const firstButton = screen.getAllByRole('button', { name: /add.*to cart/i })[0]
 
     await user.click(firstButton)
     await user.click(firstButton)
@@ -84,6 +84,6 @@ describe('ProductCatalog Integration', () => {
     render(<ProductCatalog products={[]} onAddToCart={vi.fn()} />)
 
     expect(screen.getByText('Available Products')).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /add to cart/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /add.*to cart/i })).not.toBeInTheDocument()
   })
 })

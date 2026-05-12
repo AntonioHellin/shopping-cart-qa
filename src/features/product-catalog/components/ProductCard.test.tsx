@@ -35,7 +35,7 @@ describe('ProductCard', () => {
 
   it('should render add to cart button', () => {
     render(<ProductCard product={mockProduct} onAddToCart={vi.fn()} />)
-    expect(screen.getByRole('button', { name: /add to cart/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /add.*to cart/i })).toBeInTheDocument()
   })
 
   it('should call onAddToCart when button is clicked', async () => {
@@ -43,7 +43,7 @@ describe('ProductCard', () => {
     const onAddToCart = vi.fn()
     render(<ProductCard product={mockProduct} onAddToCart={onAddToCart} />)
 
-    const button = screen.getByRole('button', { name: /add to cart/i })
+    const button = screen.getByRole('button', { name: /add.*to cart/i })
     await user.click(button)
 
     expect(onAddToCart).toHaveBeenCalledWith(mockProduct)

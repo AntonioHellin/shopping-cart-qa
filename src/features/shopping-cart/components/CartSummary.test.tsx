@@ -37,7 +37,7 @@ describe('CartSummary', () => {
 
   it('should disable checkout button when subtotal is 0', () => {
     render(<CartSummary subtotal={0} />)
-    const button = screen.getByRole('button', { name: /proceed to checkout/i })
+    const button = screen.getByRole('button', { name: /cart is empty|proceed to checkout/i })
     expect(button).toBeDisabled()
   })
 

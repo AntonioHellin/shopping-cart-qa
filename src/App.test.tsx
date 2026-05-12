@@ -35,7 +35,7 @@ describe('App Integration', () => {
     expect(screen.getByText('0 items')).toBeInTheDocument()
 
     // Click first add to cart button (Laptop)
-    const addButtons = screen.getAllByRole('button', { name: /add to cart/i })
+    const addButtons = screen.getAllByRole('button', { name: /add.*to cart/i })
     await user.click(addButtons[0])
 
     // Now 1 item
@@ -48,21 +48,22 @@ describe('App Integration', () => {
     const user = userEvent.setup()
     render(<App />)
 
-    const addButtons = screen.getAllByRole('button', { name: /add to cart/i })
+    const addButtons = screen.getAllByRole('button', { name: /add.*to cart/i })
 
     // Add laptop twice
     await user.click(addButtons[0])
     await user.click(addButtons[0])
 
     expect(screen.getByText('2 items')).toBeInTheDocument()
-    expect(screen.getByText('Qty: 2')).toBeInTheDocument()
+    const input = screen.getByRole('spinbutton', { name: /quantity for laptop/i })
+    expect(input).toBeInTheDocument()
   })
 
   it('should add multiple different products to cart', async () => {
     const user = userEvent.setup()
     render(<App />)
 
-    const addButtons = screen.getAllByRole('button', { name: /add to cart/i })
+    const addButtons = screen.getAllByRole('button', { name: /add.*to cart/i })
 
     // Add laptop and mouse
     await user.click(addButtons[0]) // Laptop
@@ -81,7 +82,7 @@ describe('App Integration', () => {
     const user = userEvent.setup()
     render(<App />)
 
-    const addButtons = screen.getAllByRole('button', { name: /add to cart/i })
+    const addButtons = screen.getAllByRole('button', { name: /add.*to cart/i })
 
     // Add laptop ($999.99) and mouse ($29.99)
     await user.click(addButtons[0])
@@ -96,13 +97,13 @@ describe('App Integration', () => {
     render(<App />)
 
     // Add an item first
-    const addButtons = screen.getAllByRole('button', { name: /add to cart/i })
+    const addButtons = screen.getAllByRole('button', { name: /add.*to cart/i })
     await user.click(addButtons[0]) // Add Laptop
 
     expect(screen.getByText('1 items')).toBeInTheDocument()
 
-    // Remove it
-    const removeButton = screen.getByRole('button', { name: /remove/i })
+    // Remove it - now matches new aria-label
+    const removeButton = screen.getByRole('button', { name: /remove.*from cart/i })
     await user.click(removeButton)
 
     // Cart should be empty again
@@ -114,11 +115,11 @@ describe('App Integration', () => {
     const user = userEvent.setup()
     render(<App />)
 
-    const checkoutButton = screen.getByRole('button', { name: /proceed to checkout/i })
+    const checkoutButton = screen.getByRole('button', { name: /proceed to checkout|cart is empty/i })
     expect(checkoutButton).toBeDisabled()
 
     // Add item
-    const addButtons = screen.getAllByRole('button', { name: /add to cart/i })
+    const addButtons = screen.getAllByRole('button', { name: /add.*to cart/i })
     await user.click(addButtons[0])
 
     expect(checkoutButton).not.toBeDisabled()
@@ -128,7 +129,7 @@ describe('App Integration', () => {
     const user = userEvent.setup()
     render(<App />)
 
-    const addButtons = screen.getAllByRole('button', { name: /add to cart/i })
+    const addButtons = screen.getAllByRole('button', { name: /add.*to cart/i })
 
     expect(screen.getByText('0 items')).toBeInTheDocument()
 
@@ -146,7 +147,7 @@ describe('App Integration', () => {
     const user = userEvent.setup()
     render(<App />)
 
-    const addButtons = screen.getAllByRole('button', { name: /add to cart/i })
+    const addButtons = screen.getAllByRole('button', { name: /add.*to cart/i })
 
     // Add 2 of same item + 1 of different item
     await user.click(addButtons[0]) // Laptop

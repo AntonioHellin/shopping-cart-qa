@@ -31,11 +31,11 @@ describe('ShoppingCart Integration', () => {
     expect(screen.getByText('3')).toBeInTheDocument()
   })
 
-  it('should display quantities for each item', () => {
+  it('should display quantity inputs for each item', () => {
     render(<ShoppingCart items={mockCartItems} onRemoveItem={vi.fn()} />)
 
-    expect(screen.getByText('Qty: 2')).toBeInTheDocument()
-    expect(screen.getByText('Qty: 1')).toBeInTheDocument()
+    expect(screen.getByRole('spinbutton', { name: /quantity for laptop/i })).toHaveValue(2)
+    expect(screen.getByRole('spinbutton', { name: /quantity for mouse/i })).toHaveValue(1)
   })
 
   it('should calculate and display correct subtotal', () => {
@@ -64,7 +64,7 @@ describe('ShoppingCart Integration', () => {
   it('should have disabled checkout button when cart is empty', () => {
     render(<ShoppingCart items={[]} onRemoveItem={vi.fn()} />)
 
-    const button = screen.getByRole('button', { name: /proceed to checkout/i })
+    const button = screen.getByRole('button', { name: /cart is empty|proceed to checkout/i })
     expect(button).toBeDisabled()
   })
 
@@ -74,7 +74,7 @@ describe('ShoppingCart Integration', () => {
 
     render(<ShoppingCart items={mockCartItems} onRemoveItem={onRemoveItem} />)
 
-    const removeButtons = screen.getAllByRole('button', { name: /remove/i })
+    const removeButtons = screen.getAllByRole('button', { name: /remove.*from cart/i })
     await user.click(removeButtons[0])
 
     expect(onRemoveItem).toHaveBeenCalledWith('1')
@@ -87,7 +87,7 @@ describe('ShoppingCart Integration', () => {
 
     render(<ShoppingCart items={mockCartItems} onRemoveItem={onRemoveItem} />)
 
-    const removeButtons = screen.getAllByRole('button', { name: /remove/i })
+    const removeButtons = screen.getAllByRole('button', { name: /remove.*from cart/i })
 
     await user.click(removeButtons[0])
     await user.click(removeButtons[1])

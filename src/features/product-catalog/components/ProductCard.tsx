@@ -35,21 +35,24 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   }
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+    <article className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
       <div className="flex items-start justify-between">
         <div>
           <h3 className="text-xl font-bold text-gray-900" dangerouslySetInnerHTML={{ __html: safeName }} />
           <p className="text-sm text-gray-500 mt-1" dangerouslySetInnerHTML={{ __html: safeDescription }} />
         </div>
-        <span className="text-2xl">{product.emoji}</span>
+        <span className="text-2xl" role="img" aria-label={product.name}>
+          {product.emoji}
+        </span>
       </div>
       <p className="text-2xl font-bold text-indigo-600 mt-4">{formatPrice(product.price)}</p>
       <button
         onClick={handleAddToCart}
-        className="w-full mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+        aria-label={`Add ${product.name} to cart for ${formatPrice(product.price)}`}
+        className="w-full mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors font-medium"
       >
         Add to Cart
       </button>
-    </div>
+    </article>
   )
 }

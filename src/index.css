@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+/* ♿ Global Accessibility Improvements */
+
+/* Ensure minimum color contrast for text */
+body {
+  color: #1f2937; /* Dark gray for good contrast on white */
+}
+
+/* Skip to main content link for keyboard navigation */
+.skip-to-main {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 1rem;
+  background-color: #4f46e5; /* Indigo-600 */
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5rem;
+}
+
+.skip-to-main:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+/* High contrast focus visible styles for keyboard navigation */
+*:focus-visible {
+  outline: 3px solid #4f46e5; /* Indigo-600 */
+  outline-offset: 2px;
+}
+
+/* Ensure sufficient tap targets for mobile */
+@media (max-width: 768px) {
+  button,
+  a {
+    min-height: 44px; /* WCAG 2.1 minimum touch target size */
+    min-width: 44px;
+  }
+}

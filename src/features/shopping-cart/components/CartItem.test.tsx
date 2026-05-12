@@ -29,14 +29,15 @@ describe('CartItem', () => {
     expect(screen.getByText('$999.99')).toBeInTheDocument()
   })
 
-  it('should render quantity', () => {
+  it('should render quantity input with current value', () => {
     render(<CartItem item={mockCartItem} onRemove={vi.fn()} />)
-    expect(screen.getByText(/Qty: 2/i)).toBeInTheDocument()
+    const input = screen.getByRole('spinbutton', { name: /quantity for laptop/i })
+    expect(input).toHaveValue(2)
   })
 
   it('should render remove button', () => {
     render(<CartItem item={mockCartItem} onRemove={vi.fn()} />)
-    expect(screen.getByRole('button', { name: /remove/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /remove.*from cart/i })).toBeInTheDocument()
   })
 
   it('should call onRemove when remove button is clicked', async () => {
@@ -44,7 +45,7 @@ describe('CartItem', () => {
     const onRemove = vi.fn()
     render(<CartItem item={mockCartItem} onRemove={onRemove} />)
 
-    const button = screen.getByRole('button', { name: /remove/i })
+    const button = screen.getByRole('button', { name: /remove.*from cart/i })
     await user.click(button)
 
     expect(onRemove).toHaveBeenCalledWith('1')

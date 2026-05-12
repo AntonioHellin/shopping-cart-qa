@@ -9,18 +9,25 @@ export class ProductCatalogPage extends BasePage {
   constructor(page: Page) {
     super(page)
     this.catalogSection = page.locator('section').first()
-    // More specific selector to avoid matching login demo
-    this.productCards = this.catalogSection.locator('.bg-white.p-6.rounded-xl')
+    // Use article tag for semantic product cards (Lesson 26: accessibility improvements)
+    this.productCards = this.catalogSection.locator('article')
   }
 
   // Actions
+  async waitForProducts() {
+    // Wait for at least one product card to be visible
+    await this.productCards.first().waitFor({ state: 'visible', timeout: 5000 })
+  }
+
   async getProductCard(index: number): Promise<Locator> {
+    await this.waitForProducts()
     return this.productCards.nth(index)
   }
 
   async addProductToCart(productIndex: number = 0) {
     const card = await this.getProductCard(productIndex)
-    const addButton = card.getByRole('button', { name: /add to cart/i })
+    // Button has aria-label with product name, e.g. "Add Laptop to cart for $999.99"
+    const addButton = card.getByRole('button', { name: /add.*to cart/i })
     await addButton.click()
   }
 
@@ -45,6 +52,6 @@ export class ProductCatalogPage extends BasePage {
     const card = await this.getProductCard(productIndex)
     await expect(card.locator('h3')).toBeVisible()
     await expect(card.locator('.text-indigo-600')).toBeVisible()
-    await expect(card.getByRole('button', { name: /add to cart/i })).toBeVisible()
+    await expect(card.getByRole('button', { name: /add.*to cart/i })).toBeVisible()
   }
 }

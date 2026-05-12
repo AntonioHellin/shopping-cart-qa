@@ -30,17 +30,30 @@ export function CartItem({ item, onRemove }: CartItemProps) {
   return (
     <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
       <div className="flex items-center gap-3">
-        <span className="text-2xl">{item.emoji}</span>
+        <span className="text-2xl" role="img" aria-label={item.name}>
+          {item.emoji}
+        </span>
         <div>
           <h4 className="font-semibold text-gray-900">{item.name}</h4>
-          <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+          <label className="text-sm text-gray-500 flex items-center gap-2">
+            Qty
+            <input
+              type="number"
+              min={1}
+              max={99}
+              defaultValue={item.quantity}
+              aria-label={`Quantity for ${item.name}`}
+              className="w-16 rounded border border-gray-300 px-2 py-1 text-sm"
+            />
+          </label>
         </div>
       </div>
       <div className="flex items-center gap-4">
         <p className="font-bold text-indigo-600">{formatPrice(item.price)}</p>
         <button
           onClick={handleRemove}
-          className="text-red-600 hover:text-red-700 text-sm font-medium"
+          aria-label={`Remove ${item.name} from cart`}
+          className="text-red-600 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded px-2 py-1 text-sm font-medium"
         >
           Remove
         </button>

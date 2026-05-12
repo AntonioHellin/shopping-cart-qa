@@ -22,7 +22,8 @@ export class ShoppingCartPage extends BasePage {
     this.emptyCartMessage = page.getByText('Your cart is empty')
     this.subtotalLabel = page.getByText('Subtotal')
     this.totalLabel = page.getByText('Total')
-    this.checkoutButton = page.getByRole('button', { name: /proceed to checkout/i })
+    // Button has different aria-label based on cart state
+    this.checkoutButton = page.getByRole('button', { name: /proceed to checkout|cart is empty/i })
   }
 
   // Actions
