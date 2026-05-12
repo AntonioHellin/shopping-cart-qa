@@ -19,7 +19,7 @@ export class ShoppingCartPage extends BasePage {
     this.cartBadge = this.cartSection.locator('.bg-indigo-600.text-white')
     // More specific selector scoped to cart section only
     this.cartItems = this.cartSection.locator('.bg-gray-50.rounded-lg')
-    this.emptyCartMessage = page.getByText('Your cart is empty')
+    this.emptyCartMessage = page.getByText('Your cart is ready for items!')
     this.subtotalLabel = page.getByText('Subtotal')
     this.totalLabel = page.getByText('Total')
     // Button has different aria-label based on cart state

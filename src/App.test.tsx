@@ -15,7 +15,7 @@ describe('App Integration', () => {
     render(<App />)
 
     expect(screen.getByText('0 items')).toBeInTheDocument()
-    expect(screen.getByText('No items')).toBeInTheDocument()
+    expect(screen.getByText(/your cart is ready for items/i)).toBeInTheDocument()
   })
 
   it('should display all products from catalog', () => {
@@ -107,14 +107,14 @@ describe('App Integration', () => {
 
     // Cart should be empty again
     expect(screen.getByText('0 items')).toBeInTheDocument()
-    expect(screen.getByText('No items')).toBeInTheDocument()
+    expect(screen.getByText(/your cart is ready for items/i)).toBeInTheDocument()
   })
 
   it('should enable checkout button when cart has items', async () => {
     const user = userEvent.setup()
     render(<App />)
 
-    const checkoutButton = screen.getByRole('button', { name: /continue|cart is empty/i })
+    const checkoutButton = screen.getByRole('button', { name: /proceed to checkout|cart is empty/i })
     expect(checkoutButton).toBeDisabled()
 
     // Add item

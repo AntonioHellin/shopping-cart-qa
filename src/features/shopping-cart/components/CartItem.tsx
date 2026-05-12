@@ -45,7 +45,7 @@ export function CartItem({ item, onRemove }: CartItemProps) {
           aria-label={`Remove ${item.name} from cart`}
           className="text-red-600 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded px-2 py-1 text-sm font-medium"
         >
-          OK
+          Remove Item
         </button>
       </div>
     </div>

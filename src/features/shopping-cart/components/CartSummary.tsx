@@ -38,24 +38,38 @@ export function CartSummary({ subtotal }: CartSummaryProps) {
       </div>
       <button
         disabled={subtotal === 0}
-        aria-label={subtotal === 0 ? 'Cart is empty. Add items to proceed' : 'Continue'}
+        aria-label={subtotal === 0 ? 'Cart is empty. Add items to proceed' : 'Proceed to checkout'}
         className={`w-full py-3 px-4 rounded-xl font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
           subtotal === 0
             ? 'bg-gradient-to-r from-gray-300 to-gray-400 text-white cursor-not-allowed'
             : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700'
         }`}
       >
-        Continue
+        Proceed to Checkout
       </button>
-      <p className="text-xs text-gray-400 text-center mt-3">
-        <span role="img" aria-label="Credit card">
-          💳
+      <p className="text-xs text-gray-500 text-center mt-3">
+        <span role="img" aria-label="Lock icon">
+          🔒
         </span>{' '}
-        Secure checkout •{' '}
-        <span role="img" aria-label="Delivery truck">
-          🚚
-        </span>{' '}
-        Free shipping over $100
+        Safe & secure checkout
+        {subtotal >= 100 && (
+          <span>
+            {' '}•{' '}
+            <span role="img" aria-label="Delivery truck">
+              🚚
+            </span>{' '}
+            <span className="text-green-600 font-medium">Free shipping applied!</span>
+          </span>
+        )}
+        {subtotal > 0 && subtotal < 100 && (
+          <span>
+            {' '}•{' '}
+            <span role="img" aria-label="Delivery truck">
+              🚚
+            </span>{' '}
+            Add ${formatPrice(100 - subtotal)} for free shipping
+          </span>
+        )}
       </p>
     </div>
   )

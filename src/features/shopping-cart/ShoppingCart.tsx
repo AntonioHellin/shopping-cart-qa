@@ -25,6 +25,10 @@ export function ShoppingCart({ items, onRemoveItem }: ShoppingCartProps) {
     Sentry.setMeasurement('cart.value', subtotal, 'none')
   }, [items, itemCount, subtotal])
 
+  const handleBrowseProducts = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <section className="lg:col-span-1" aria-label="Shopping cart">
       <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 sticky top-24 border border-indigo-100">
@@ -40,9 +44,18 @@ export function ShoppingCart({ items, onRemoveItem }: ShoppingCartProps) {
         </div>
 
         {items.length === 0 ? (
-          <div className="text-center py-12 bg-gray-50 rounded-xl">
-            <p className="text-gray-600 font-medium">No items</p>
-            <button className="mt-4 text-indigo-600 underline">Click here</button>
+          <div className="text-center py-12 bg-gradient-to-br from-gray-50 to-indigo-50 rounded-xl">
+            <div className="text-6xl mb-4 animate-bounce" role="img" aria-label="Empty shopping cart">
+              🛒
+            </div>
+            <h3 className="text-gray-800 font-semibold text-lg mb-2">Your cart is ready for items!</h3>
+            <p className="text-sm text-gray-500 mb-4">Browse our products and add items you love</p>
+            <button
+              onClick={handleBrowseProducts}
+              className="bg-indigo-600 text-white py-2 px-6 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors font-medium"
+            >
+              Browse Products
+            </button>
           </div>
         ) : (
           <div className="space-y-3" role="list" aria-label="Cart items">

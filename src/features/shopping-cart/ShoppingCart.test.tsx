@@ -13,7 +13,8 @@ describe('ShoppingCart Integration', () => {
   it('should display empty cart message when no items', () => {
     render(<ShoppingCart items={[]} onRemoveItem={vi.fn()} />)
 
-    expect(screen.getByText('No items')).toBeInTheDocument()
+    expect(screen.getByText(/your cart is ready for items/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /browse products/i })).toBeInTheDocument()
   })
 
   it('should display all cart items', () => {
@@ -30,7 +31,7 @@ describe('ShoppingCart Integration', () => {
     expect(screen.getByText('3')).toBeInTheDocument()
   })
 
-  it('should display quantity inputs for each item', () => {
+  it('should display quantities for each item', () => {
     render(<ShoppingCart items={mockCartItems} onRemoveItem={vi.fn()} />)
 
     expect(screen.getByText('Qty: 2')).toBeInTheDocument()
@@ -56,14 +57,14 @@ describe('ShoppingCart Integration', () => {
   it('should have enabled checkout button when cart has items', () => {
     render(<ShoppingCart items={mockCartItems} onRemoveItem={vi.fn()} />)
 
-    const button = screen.getByRole('button', { name: /continue/i })
+    const button = screen.getByRole('button', { name: /proceed to checkout/i })
     expect(button).not.toBeDisabled()
   })
 
   it('should have disabled checkout button when cart is empty', () => {
     render(<ShoppingCart items={[]} onRemoveItem={vi.fn()} />)
 
-    const button = screen.getByRole('button', { name: /cart is empty|continue/i })
+    const button = screen.getByRole('button', { name: /cart is empty|proceed to checkout/i })
     expect(button).toBeDisabled()
   })
 
@@ -99,8 +100,9 @@ describe('ShoppingCart Integration', () => {
   it('should display shipping info in cart summary', () => {
     render(<ShoppingCart items={mockCartItems} onRemoveItem={vi.fn()} />)
 
-    expect(screen.getByText(/free shipping over \$100/i)).toBeInTheDocument()
-    expect(screen.getByText(/secure checkout/i)).toBeInTheDocument()
+    // With $2029.97 subtotal, should show "Free shipping applied!"
+    expect(screen.getByText(/free shipping applied/i)).toBeInTheDocument()
+    expect(screen.getByText(/safe & secure checkout/i)).toBeInTheDocument()
   })
 
   it('should display 15% discount for orders over $100', () => {
@@ -109,5 +111,18 @@ describe('ShoppingCart Integration', () => {
 
     expect(screen.getByText('Discount')).toBeInTheDocument()
     expect(screen.getByText('-$304.50')).toBeInTheDocument()
+  })
+
+  it('should scroll to top when Browse Products button is clicked', async () => {
+    const user = userEvent.setup()
+    const scrollToMock = vi.fn()
+    window.scrollTo = scrollToMock
+
+    render(<ShoppingCart items={[]} onRemoveItem={vi.fn()} />)
+
+    const browseButton = screen.getByRole('button', { name: /browse products/i })
+    await user.click(browseButton)
+
+    expect(scrollToMock).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' })
   })
 })
