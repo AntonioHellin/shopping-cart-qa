@@ -32,6 +32,14 @@ export default defineConfig({
         // 🏗️ INFRASTRUCTURE TIER (0%): TypeScript validates, no logic to test
         'src/shared/types/**',
       ],
+      thresholds: {
+        // Global baseline for non-critical code
+        global: {
+          functions: 100,
+          lines: 80,
+          branches: 80,
+          statements: 80,
+        },
         // 🎯 CORE TIER (100%): Business logic that handles money/critical data
         'src/shared/utils/calculateSubtotal.ts': {
           statements: 100,
