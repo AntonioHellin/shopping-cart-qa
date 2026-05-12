@@ -1,0 +1,423 @@
+openapi: 3.0.3
+info:
+  title: Product Shop API
+  description: |
+    **Educational API Documentation** for the AI Course Product Shop application.
+
+    This is a **simulated API** for teaching purposes - these endpoints don't actually exist.
+    The application is 100% client-side with localStorage persistence.
+
+    This documentation demonstrates how to document REST APIs using OpenAPI/Swagger specification.
+  version: 1.0.0
+  contact:
+    name: AI Course
+    url: https://github.com/your-repo/ai-course
+
+servers:
+  - url: http://localhost:5173/api
+    description: Development server (simulated)
+  - url: https://api.productshop.example.com
+    description: Production server (simulated)
+
+tags:
+  - name: Products
+    description: Product catalog operations
+  - name: Cart
+    description: Shopping cart management
+  - name: Auth
+    description: Authentication and authorization
+
+paths:
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Get all products
+      description: Retrieves the complete product catalog
+      operationId: getProducts
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+              example:
+                - id: "1"
+                  name: "Laptop Pro"
+                  description: "High-performance laptop for developers"
+                  price: 1299.99
+                  emoji: "💻"
+                - id: "2"
+                  name: "Wireless Headphones"
+                  description: "Noise-canceling bluetooth headphones"
+                  price: 199.99
+                  emoji: "🎧"
+
+  /products/{productId}:
+    get:
+      tags:
+        - Products
+      summary: Get product by ID
+      description: Retrieves a single product by its unique identifier
+      operationId: getProductById
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: Unique identifier of the product
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /cart:
+    get:
+      tags:
+        - Cart
+      summary: Get current cart
+      description: Retrieves all items in the user's shopping cart
+      operationId: getCart
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /cart/items:
+    post:
+      tags:
+        - Cart
+      summary: Add item to cart
+      description: Adds a product to the shopping cart or increments quantity if already exists
+      operationId: addCartItem
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCartItemRequest'
+            example:
+              productId: "1"
+              quantity: 2
+      responses:
+        '201':
+          description: Item added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /cart/items/{productId}:
+    delete:
+      tags:
+        - Cart
+      summary: Remove item from cart
+      description: Removes a product completely from the shopping cart
+      operationId: removeCartItem
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: Product ID to remove
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: Item removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Item not found in cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: User login
+      description: Authenticates user and returns JWT token
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              email: "demo@example.com"
+              password: "Demo123!@#"
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: User logout
+      description: Invalidates the current user session
+      operationId: logout
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Logged out successfully"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from /auth/login endpoint
+
+  schemas:
+    Product:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - price
+        - emoji
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the product
+          example: "1"
+        name:
+          type: string
+          description: Product name
+          example: "Laptop Pro"
+        description:
+          type: string
+          description: Product description
+          example: "High-performance laptop for developers"
+        price:
+          type: number
+          format: double
+          description: Price in USD
+          example: 1299.99
+        emoji:
+          type: string
+          description: Emoji icon representing the product
+          example: "💻"
+
+    CartItem:
+      type: object
+      required:
+        - id
+        - productId
+        - name
+        - price
+        - quantity
+        - emoji
+      properties:
+        id:
+          type: string
+          description: Unique cart item identifier
+          example: "cart-item-1"
+        productId:
+          type: string
+          description: Reference to the product
+          example: "1"
+        name:
+          type: string
+          description: Product name
+          example: "Laptop Pro"
+        price:
+          type: number
+          format: double
+          description: Unit price in USD
+          example: 1299.99
+        quantity:
+          type: integer
+          minimum: 1
+          description: Quantity of this item in cart
+          example: 2
+        emoji:
+          type: string
+          description: Product emoji
+          example: "💻"
+
+    Cart:
+      type: object
+      required:
+        - items
+        - subtotal
+        - itemCount
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+        subtotal:
+          type: number
+          format: double
+          description: Total cart value in USD
+          example: 2599.98
+        itemCount:
+          type: integer
+          description: Total number of items (sum of quantities)
+          example: 2
+
+    AddCartItemRequest:
+      type: object
+      required:
+        - productId
+        - quantity
+      properties:
+        productId:
+          type: string
+          description: ID of the product to add
+          example: "1"
+        quantity:
+          type: integer
+          minimum: 1
+          default: 1
+          description: Quantity to add
+          example: 2
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: User email address
+          example: "demo@example.com"
+        password:
+          type: string
+          format: password
+          description: User password
+          example: "Demo123!@#"
+
+    AuthResponse:
+      type: object
+      required:
+        - token
+        - user
+      properties:
+        token:
+          type: string
+          description: JWT authentication token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "user-123"
+            email:
+              type: string
+              format: email
+              example: "demo@example.com"
+            role:
+              type: string
+              enum: [user, admin]
+              example: "user"
+
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+          example: "NOT_FOUND"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Product not found"
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true

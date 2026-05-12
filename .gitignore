@@ -26,3 +26,6 @@ dist-ssr
 # Course files (not committed)
 FOLLOWUP.md
 slides/
+
+*storybook.log
+storybook-static
