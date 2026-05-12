@@ -12,6 +12,7 @@ export class HomePage extends BasePage {
     super(page)
     this.header = page.locator('header')
     this.title = page.getByText('🛒 Product Shop')
+    // Using literal space instead of \s to avoid slow-regex warning
     this.cartBadge = page.getByText(/\d+ items/)
     this.productsHeading = page.getByRole('heading', { name: /available products/i })
   }

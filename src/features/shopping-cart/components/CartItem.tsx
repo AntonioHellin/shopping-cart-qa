@@ -7,15 +7,8 @@ interface CartItemProps {
 }
 
 export function CartItem({ item, onRemove }: CartItemProps) {
-  // ❌ CODE SMELL: Duplicate validation logic (también en ProductCard - no usada pero existe)
-  const validateQuantity = (qty: number) => {
-    if (qty < 1) return 'Quantity must be at least 1'
-    if (qty > 99) return 'Quantity cannot exceed 99'
-    return ''
-  }
-
-  // ❌ CODE SMELL: Primitive obsession - formateo de precio repetido
-  const itemPrice = `$${item.price.toFixed(2)}`
+  // ✅ REFACTORED: Removed unused validateQuantity function (dead code)
+  // ✅ REFACTORED: Removed itemPrice primitive obsession, using formatPrice utility directly
 
   return (
     <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
