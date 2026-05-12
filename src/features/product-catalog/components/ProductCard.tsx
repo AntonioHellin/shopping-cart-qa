@@ -9,6 +9,7 @@ interface ProductCardProps {
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   // ✅ REFACTORED: Using formatPrice utility instead of primitive obsession
   // ✅ REFACTORED: Removed unused calculateBulkDiscount function (dead code)
+  // TODO: Extract button component to shared/components for reusability
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">

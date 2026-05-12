@@ -28,6 +28,7 @@ export default defineConfig([
       'sonarjs/no-duplicate-string': 'error',
       'sonarjs/no-identical-functions': 'error',
       'sonarjs/slow-regex': 'off', // Disabled for Playwright test selectors
+      'sonarjs/todo-tag': 'off', // TODO comments are intentional for student exercises
     },
   },
 ])

@@ -1,16 +1,16 @@
 import { formatPrice } from '@shared/utils/formatPrice'
-import { businessRules } from '@shared/constants/businessRules'
+import { DiscountCalculator } from '@shared/strategies/DiscountCalculator'
 
 interface CartSummaryProps {
   subtotal: number
 }
 
 export function CartSummary({ subtotal }: CartSummaryProps) {
-  // ✅ REFACTORED: Using named constants from businessRules
-  let discount = 0
-  if (subtotal >= businessRules.orderDiscount.threshold) {
-    discount = subtotal * businessRules.orderDiscount.percentage
-  }
+  // ✅ REFACTORED: Using Strategy Pattern (Open/Closed Principle)
+  // Easy to add new discount types without modifying this code
+  const strategy = DiscountCalculator.getStrategyForOrder(subtotal)
+  const calculator = new DiscountCalculator(strategy)
+  const discount = calculator.calculate(subtotal)
   const total = subtotal - discount
 
   return (
