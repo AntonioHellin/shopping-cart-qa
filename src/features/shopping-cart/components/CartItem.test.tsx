@@ -29,10 +29,9 @@ describe('CartItem', () => {
     expect(screen.getByText('$999.99')).toBeInTheDocument()
   })
 
-  it('should render quantity input with current value', () => {
+  it('should render quantity', () => {
     render(<CartItem item={mockCartItem} onRemove={vi.fn()} />)
-    const input = screen.getByRole('spinbutton', { name: /quantity for laptop/i })
-    expect(input).toHaveValue(2)
+    expect(screen.getByText(/Qty: 2/i)).toBeInTheDocument()
   })
 
   it('should render remove button', () => {

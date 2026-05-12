@@ -40,12 +40,9 @@ export function ShoppingCart({ items, onRemoveItem }: ShoppingCartProps) {
         </div>
 
         {items.length === 0 ? (
-          <div className="text-center py-12 bg-gradient-to-br from-gray-50 to-indigo-50 rounded-xl">
-            <div className="text-6xl mb-4 animate-bounce" role="img" aria-label="Empty shopping cart">
-              🛒
-            </div>
-            <p className="text-gray-600 font-medium">Your cart is empty</p>
-            <p className="text-sm text-gray-400 mt-2">Add some products to get started!</p>
+          <div className="text-center py-12 bg-gray-50 rounded-xl">
+            <p className="text-gray-600 font-medium">No items</p>
+            <button className="mt-4 text-indigo-600 underline">Click here</button>
           </div>
         ) : (
           <div className="space-y-3" role="list" aria-label="Cart items">

@@ -15,7 +15,7 @@ describe('App Integration', () => {
     render(<App />)
 
     expect(screen.getByText('0 items')).toBeInTheDocument()
-    expect(screen.getByText('Your cart is empty')).toBeInTheDocument()
+    expect(screen.getByText('No items')).toBeInTheDocument()
   })
 
   it('should display all products from catalog', () => {
@@ -55,8 +55,7 @@ describe('App Integration', () => {
     await user.click(addButtons[0])
 
     expect(screen.getByText('2 items')).toBeInTheDocument()
-    const input = screen.getByRole('spinbutton', { name: /quantity for laptop/i })
-    expect(input).toBeInTheDocument()
+    expect(screen.getByText('Qty: 2')).toBeInTheDocument()
   })
 
   it('should add multiple different products to cart', async () => {
@@ -108,14 +107,14 @@ describe('App Integration', () => {
 
     // Cart should be empty again
     expect(screen.getByText('0 items')).toBeInTheDocument()
-    expect(screen.getByText('Your cart is empty')).toBeInTheDocument()
+    expect(screen.getByText('No items')).toBeInTheDocument()
   })
 
   it('should enable checkout button when cart has items', async () => {
     const user = userEvent.setup()
     render(<App />)
 
-    const checkoutButton = screen.getByRole('button', { name: /proceed to checkout|cart is empty/i })
+    const checkoutButton = screen.getByRole('button', { name: /continue|cart is empty/i })
     expect(checkoutButton).toBeDisabled()
 
     // Add item

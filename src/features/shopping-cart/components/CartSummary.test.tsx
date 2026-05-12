@@ -32,18 +32,18 @@ describe('CartSummary', () => {
 
   it('should render checkout button', () => {
     render(<CartSummary subtotal={100} />)
-    expect(screen.getByRole('button', { name: /proceed to checkout/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /continue/i })).toBeInTheDocument()
   })
 
   it('should disable checkout button when subtotal is 0', () => {
     render(<CartSummary subtotal={0} />)
-    const button = screen.getByRole('button', { name: /cart is empty|proceed to checkout/i })
+    const button = screen.getByRole('button', { name: /cart is empty|continue/i })
     expect(button).toBeDisabled()
   })
 
   it('should enable checkout button when subtotal is greater than 0', () => {
     render(<CartSummary subtotal={100} />)
-    const button = screen.getByRole('button', { name: /proceed to checkout/i })
+    const button = screen.getByRole('button', { name: /continue/i })
     expect(button).not.toBeDisabled()
   })
 })

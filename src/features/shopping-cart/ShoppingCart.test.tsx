@@ -13,8 +13,7 @@ describe('ShoppingCart Integration', () => {
   it('should display empty cart message when no items', () => {
     render(<ShoppingCart items={[]} onRemoveItem={vi.fn()} />)
 
-    expect(screen.getByText('Your cart is empty')).toBeInTheDocument()
-    expect(screen.getByText('Add some products to get started!')).toBeInTheDocument()
+    expect(screen.getByText('No items')).toBeInTheDocument()
   })
 
   it('should display all cart items', () => {
@@ -34,8 +33,8 @@ describe('ShoppingCart Integration', () => {
   it('should display quantity inputs for each item', () => {
     render(<ShoppingCart items={mockCartItems} onRemoveItem={vi.fn()} />)
 
-    expect(screen.getByRole('spinbutton', { name: /quantity for laptop/i })).toHaveValue(2)
-    expect(screen.getByRole('spinbutton', { name: /quantity for mouse/i })).toHaveValue(1)
+    expect(screen.getByText('Qty: 2')).toBeInTheDocument()
+    expect(screen.getByText('Qty: 1')).toBeInTheDocument()
   })
 
   it('should calculate and display correct subtotal', () => {
@@ -57,14 +56,14 @@ describe('ShoppingCart Integration', () => {
   it('should have enabled checkout button when cart has items', () => {
     render(<ShoppingCart items={mockCartItems} onRemoveItem={vi.fn()} />)
 
-    const button = screen.getByRole('button', { name: /proceed to checkout/i })
+    const button = screen.getByRole('button', { name: /continue/i })
     expect(button).not.toBeDisabled()
   })
 
   it('should have disabled checkout button when cart is empty', () => {
     render(<ShoppingCart items={[]} onRemoveItem={vi.fn()} />)
 
-    const button = screen.getByRole('button', { name: /cart is empty|proceed to checkout/i })
+    const button = screen.getByRole('button', { name: /cart is empty|continue/i })
     expect(button).toBeDisabled()
   })
 

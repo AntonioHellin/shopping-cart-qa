@@ -38,14 +38,14 @@ export function CartSummary({ subtotal }: CartSummaryProps) {
       </div>
       <button
         disabled={subtotal === 0}
-        aria-label={subtotal === 0 ? 'Cart is empty. Add items to proceed' : 'Proceed to checkout'}
+        aria-label={subtotal === 0 ? 'Cart is empty. Add items to proceed' : 'Continue'}
         className={`w-full py-3 px-4 rounded-xl font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
           subtotal === 0
             ? 'bg-gradient-to-r from-gray-300 to-gray-400 text-white cursor-not-allowed'
             : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700'
         }`}
       >
-        Proceed to Checkout
+        Continue
       </button>
       <p className="text-xs text-gray-400 text-center mt-3">
         <span role="img" aria-label="Credit card">
