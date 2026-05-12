@@ -2,6 +2,8 @@ import { CartItem } from './components/CartItem'
 import { CartSummary } from './components/CartSummary'
 import { calculateSubtotal } from '@shared/utils/calculateSubtotal'
 import type { CartItem as CartItemType } from '@shared/types'
+import * as Sentry from '@sentry/react'
+import { useEffect } from 'react'
 
 interface ShoppingCartProps {
   items: CartItemType[]
@@ -11,6 +13,17 @@ interface ShoppingCartProps {
 export function ShoppingCart({ items, onRemoveItem }: ShoppingCartProps) {
   const subtotal = calculateSubtotal(items)
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0)
+
+  // 📊 Custom Metric: Track cart size for business insights
+  useEffect(() => {
+    // Track cart metrics as tags for filtering/analysis
+    Sentry.setTag('cart.items.count', itemCount)
+    Sentry.setTag('cart.subtotal.amount', subtotal)
+
+    // Add measurement for performance tracking
+    Sentry.setMeasurement('cart.items', itemCount, 'none')
+    Sentry.setMeasurement('cart.value', subtotal, 'none')
+  }, [items, itemCount, subtotal])
 
   return (
     <section className="lg:col-span-1">

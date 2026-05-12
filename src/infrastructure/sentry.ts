@@ -53,7 +53,9 @@ export function initializeSentry() {
 
     // 🔌 Integrations
     integrations: [
-      // Browser performance tracking (page loads, navigation)
+      // 📊 Performance Monitoring: Core Web Vitals + RUM
+      // Tracks LCP (Largest Contentful Paint), FID (First Input Delay), CLS (Cumulative Layout Shift)
+      // Real User Monitoring captures actual user experience, not synthetic tests
       Sentry.browserTracingIntegration({
         enableLongTask: true, // Detect tasks that block UI (>50ms)
         enableInp: true, // Interaction to Next Paint (Core Web Vital)
