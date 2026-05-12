@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ProductCatalog } from '@features/product-catalog/ProductCatalog'
 import { ShoppingCart } from '@features/shopping-cart/ShoppingCart'
 import { LoginDemo } from './features/auth/LoginDemo'
+import { SecurityChecklist } from './features/security/SecurityChecklist'
 import { PRODUCTS } from '@shared/data/products'
 import type { Product, CartItem } from '@shared/types'
 import * as Sentry from '@sentry/react'
@@ -85,6 +86,11 @@ function App() {
                 🔐 Authentication Demo
               </h2>
               <LoginDemo />
+            </div>
+
+            {/* 🛡️ OWASP Top 10 Security Checklist */}
+            <div>
+              <SecurityChecklist />
             </div>
           </div>
           <ShoppingCart items={cartItems} onRemoveItem={handleRemoveItem} />
