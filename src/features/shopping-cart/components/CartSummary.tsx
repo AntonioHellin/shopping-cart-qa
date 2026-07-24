@@ -13,7 +13,7 @@ export function CartSummary({ subtotal }: CartSummaryProps) {
   const total = subtotal - discount
 
   return (
-    <div className="mt-6 pt-6 border-t-2 border-dashed border-gray-200">
+    <div data-testid="cart-summary" className="mt-6 pt-6 border-t-2 border-dashed border-gray-200">
       <div className="space-y-2 mb-4">
         <div className="flex justify-between text-sm text-gray-600">
           <span>Subtotal</span>
