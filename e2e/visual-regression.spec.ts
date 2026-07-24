@@ -1,19 +1,42 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test'
+import { HomePage } from './pages/HomePage'
+import { ProductCatalogPage } from './pages/ProductCatalogPage'
 
-test.describe('Visual Regression', () => {
-  test('cart with item should match visual baseline', async ({ page }) => {
-    // 1. Navigate to home
-    await page.goto('/');
+test.describe('Visual Regression Testing', () => {
+  test('should match empty cart baseline', async ({ page }) => {
+    const homePage = new HomePage(page)
 
-    // 2. Add the first product to the cart
-    await page.getByRole('button', { name: /add to cart/i }).first().click();
+    await homePage.open()
+    await homePage.shouldBeVisible()
 
-    // 3. Wait for cart count to update to "1 items" (synchronization)
-    await expect(page.getByText('1 items')).toBeVisible();
+    // Take screenshot of empty cart state
+    await expect(page).toHaveScreenshot('empty-cart.png')
+  })
 
-    // 4. Capture screenshot and compare with baseline
-    await expect(page).toHaveScreenshot('cart-with-item.png', {
-      maxDiffPixels: 100,
-    });
-  });
-});
+  test('should match cart with items baseline', async ({ page }) => {
+    const homePage = new HomePage(page)
+    const catalogPage = new ProductCatalogPage(page)
+
+    await homePage.open()
+
+    // Add product to cart
+    await catalogPage.addProductToCart(0)
+
+    // Wait for cart to update
+    await homePage.shouldHaveCartCount(1)
+
+    // Take screenshot with item in cart
+    await expect(page).toHaveScreenshot('cart-with-item.png')
+  })
+
+  test('should match product catalog baseline', async ({ page }) => {
+    const homePage = new HomePage(page)
+    const catalogPage = new ProductCatalogPage(page)
+
+    await homePage.open()
+    await catalogPage.shouldHaveProducts(4)
+
+    // Take screenshot of product catalog
+    await expect(page).toHaveScreenshot('product-catalog.png')
+  })
+})
