@@ -1,5 +1,6 @@
 import { formatPrice } from '@shared/utils/formatPrice'
 import { DiscountCalculator } from '@shared/strategies/DiscountCalculator'
+import { Button } from '@shared/components/Button'
 
 interface CartSummaryProps {
   subtotal: number
@@ -31,16 +32,13 @@ export function CartSummary({ subtotal }: CartSummaryProps) {
           </span>
         </div>
       </div>
-      <button
+      <Button
+        variant="secondary"
         disabled={subtotal === 0}
-        className={`w-full py-3 px-4 rounded-xl font-semibold shadow-md ${
-          subtotal === 0
-            ? 'bg-gradient-to-r from-gray-300 to-gray-400 text-white cursor-not-allowed'
-            : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700'
-        }`}
+        className="w-full py-3 rounded-xl font-semibold shadow-md"
       >
         Proceed to Checkout
-      </button>
+      </Button>
       <p className="text-xs text-gray-400 text-center mt-3">
         💳 Secure checkout • 🚚 Free shipping over $100
       </p>

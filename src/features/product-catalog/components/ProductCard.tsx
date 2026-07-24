@@ -1,5 +1,6 @@
 import type { Product } from '@shared/types'
 import { formatPrice } from '@shared/utils/formatPrice'
+import { Button } from '@shared/components/Button'
 
 interface ProductCardProps {
   product: Product
@@ -7,10 +8,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
-  // ✅ REFACTORED: Using formatPrice utility instead of primitive obsession
-  // ✅ REFACTORED: Removed unused calculateBulkDiscount function (dead code)
-  // TODO: Extract button component to shared/components for reusability
-
   return (
     <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
       <div className="flex items-start justify-between">
@@ -21,12 +18,13 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
         <span className="text-2xl">{product.emoji}</span>
       </div>
       <p className="text-2xl font-bold text-indigo-600 mt-4">{formatPrice(product.price)}</p>
-      <button
+      <Button
+        variant="primary"
+        className="w-full mt-4"
         onClick={() => onAddToCart(product)}
-        className="w-full mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
       >
         Add to Cart
-      </button>
+      </Button>
     </div>
   )
 }
