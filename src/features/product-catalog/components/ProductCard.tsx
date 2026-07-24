@@ -1,5 +1,6 @@
 import type { Product } from '@shared/types'
 import { formatPrice } from '@shared/utils/formatPrice'
+import { businessRules } from '@shared/constants/businessRules'
 
 interface ProductCardProps {
   product: Product
@@ -10,11 +11,9 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   // ❌ CODE SMELL: Primitive obsession - formateo de precio repetido (en vez de usar formatPrice)
   const formattedPrice = `$${product.price.toFixed(2)}`
 
-  // ❌ CODE SMELL: Magic numbers - ¿Qué significa 5 y 0.1?
-  // This logic exists but is not used (simulating potential future feature)
   const calculateBulkDiscount = (qty: number) => {
-    if (qty >= 5) {
-      return product.price * qty * 0.1  // 10% discount for 5+ items
+    if (qty >= businessRules.bulkDiscount.minQuantity) {
+      return product.price * qty * businessRules.bulkDiscount.percentage
     }
     return 0
   }

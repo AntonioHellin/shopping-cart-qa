@@ -1,14 +1,14 @@
 import { formatPrice } from '@shared/utils/formatPrice'
+import { businessRules } from '@shared/constants/businessRules'
 
 interface CartSummaryProps {
   subtotal: number
 }
 
 export function CartSummary({ subtotal }: CartSummaryProps) {
-  // ❌ CODE SMELL: Magic numbers - ¿Qué significan 100, 0.15?
   let discount = 0
-  if (subtotal >= 100) {
-    discount = subtotal * 0.15  // 15% discount for orders $100+
+  if (subtotal >= businessRules.cartDiscount.threshold) {
+    discount = subtotal * businessRules.cartDiscount.percentage
   }
   const total = subtotal - discount
 
@@ -41,7 +41,7 @@ export function CartSummary({ subtotal }: CartSummaryProps) {
         Proceed to Checkout
       </button>
       <p className="text-xs text-gray-400 text-center mt-3">
-        💳 Secure checkout • 🚚 Free shipping over $100
+        💳 Secure checkout • 🚚 Free shipping over ${businessRules.cartDiscount.threshold}
       </p>
     </div>
   )
