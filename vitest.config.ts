@@ -37,6 +37,13 @@ export default defineConfig({
           branches: 80,
           statements: 80,
         },
+        // 🎯 CORE: 100% - [Cálculos de dinero / Costo de envío]
+        'src/shared/utils/shipping.ts': {
+          statements: 100,
+          branches: 100,
+          functions: 100,
+          lines: 100,
+        },
       },
     },
   },
