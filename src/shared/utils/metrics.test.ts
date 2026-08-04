@@ -3,11 +3,12 @@ import {
   getMetricCount,
   setMetricCount,
   trackAbandonmentRate,
+  logConversionRate,
   trackAddToCart,
   trackCheckout,
 } from './metrics'
 
-describe('metrics utility (Cart Abandonment Rate)', () => {
+describe('metrics utility (Cart Abandonment Rate & Conversion Rate)', () => {
   beforeEach(() => {
     localStorage.clear()
     vi.restoreAllMocks()
@@ -47,30 +48,46 @@ describe('metrics utility (Cart Abandonment Rate)', () => {
     expect(consoleWarnSpy).toHaveBeenCalledWith('⚠️ ABANDONO ALTO: Revisar precios/UX')
   })
 
-  it('should calculate 50% abandonment rate and log moderate abandonment for 2 adds and 1 checkout', () => {
-    setMetricCount('addToCartCount', 2)
-    setMetricCount('checkoutCount', 1)
+  describe('logConversionRate dashboard', () => {
+    it('should log "25.5% 🟡 NORMAL" for 47 addToCart and 12 checkouts', () => {
+      setMetricCount('addToCartCount', 47)
+      setMetricCount('checkoutCount', 12)
 
-    const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
-    const rate = trackAbandonmentRate()
+      const rate = logConversionRate()
 
-    expect(rate).toBe(50)
-    expect(consoleLogSpy).toHaveBeenCalledWith('🔍 Cart Abandonment: 50.0%')
-    expect(consoleLogSpy).toHaveBeenCalledWith('⚠️ Abandono moderado')
-  })
+      expect(rate).toBeCloseTo(25.5319, 2)
+      expect(consoleSpy).toHaveBeenCalledWith(
+        '📊 Conversion Rate: 25.5% 🟡 NORMAL\nAdd to Cart: 47\nCheckouts: 12'
+      )
+    })
 
-  it('should calculate 25% abandonment rate and log normal abandonment for 4 adds and 3 checkouts', () => {
-    setMetricCount('addToCartCount', 4)
-    setMetricCount('checkoutCount', 3)
+    it('should log "🟢 EXCELENTE" for >= 30% conversion rate', () => {
+      setMetricCount('addToCartCount', 10)
+      setMetricCount('checkoutCount', 4)
 
-    const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
-    const rate = trackAbandonmentRate()
+      logConversionRate()
 
-    expect(rate).toBe(25)
-    expect(consoleLogSpy).toHaveBeenCalledWith('🔍 Cart Abandonment: 25.0%')
-    expect(consoleLogSpy).toHaveBeenCalledWith('✅ Abandono normal')
+      expect(consoleSpy).toHaveBeenCalledWith(
+        '📊 Conversion Rate: 40.0% 🟢 EXCELENTE\nAdd to Cart: 10\nCheckouts: 4'
+      )
+    })
+
+    it('should log "🔴 CRÍTICO" for < 10% conversion rate', () => {
+      setMetricCount('addToCartCount', 100)
+      setMetricCount('checkoutCount', 5)
+
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
+
+      logConversionRate()
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        '📊 Conversion Rate: 5.0% 🔴 CRÍTICO\nAdd to Cart: 100\nCheckouts: 5'
+      )
+    })
   })
 
   it('should increment addToCartCount when trackAddToCart is called', () => {

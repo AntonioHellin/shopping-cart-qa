@@ -1,13 +1,18 @@
+import { useEffect } from 'react'
 import { formatPrice } from '@shared/utils/formatPrice'
 import { DiscountCalculator } from '@shared/strategies/DiscountCalculator'
 import { Button } from '@shared/components/Button'
-import { trackCheckout } from '@shared/utils/metrics'
+import { trackCheckout, logConversionRate } from '@shared/utils/metrics'
 
 interface CartSummaryProps {
   subtotal: number
 }
 
 export function CartSummary({ subtotal }: CartSummaryProps) {
+  useEffect(() => {
+    logConversionRate()
+  }, [])
+
   // ✅ REFACTORED: Using Strategy Pattern (Open/Closed Principle)
   // Easy to add new discount types without modifying this code
   const strategy = DiscountCalculator.getStrategyForOrder(subtotal)
