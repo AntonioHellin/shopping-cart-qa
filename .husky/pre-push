@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+echo "🚀 Running Quality Gates (pre-push)..."
+echo "📊 Checking test coverage..."
+pnpm run test:coverage || { echo "❌ Coverage not met!"; exit 1; }
+echo "✅ Pre-push gates passed!"
