@@ -1,5 +1,7 @@
 import { formatPrice } from '@shared/utils/formatPrice'
 import { DiscountCalculator } from '@shared/strategies/DiscountCalculator'
+import { Button } from '@shared/components/Button'
+import { trackCheckout } from '@shared/utils/metrics'
 
 interface CartSummaryProps {
   subtotal: number
@@ -12,6 +14,10 @@ export function CartSummary({ subtotal }: CartSummaryProps) {
   const calculator = new DiscountCalculator(strategy)
   const discount = calculator.calculate(subtotal)
   const total = subtotal - discount
+
+  const handleCheckout = () => {
+    trackCheckout()
+  }
 
   return (
     <div className="mt-6 pt-6 border-t-2 border-dashed border-gray-200">
@@ -31,8 +37,9 @@ export function CartSummary({ subtotal }: CartSummaryProps) {
           </span>
         </div>
       </div>
-      <button
+      <Button
         disabled={subtotal === 0}
+        onClick={handleCheckout}
         className={`w-full py-3 px-4 rounded-xl font-semibold shadow-md ${
           subtotal === 0
             ? 'bg-gradient-to-r from-gray-300 to-gray-400 text-white cursor-not-allowed'
@@ -40,7 +47,7 @@ export function CartSummary({ subtotal }: CartSummaryProps) {
         }`}
       >
         Proceed to Checkout
-      </button>
+      </Button>
       <p className="text-xs text-gray-400 text-center mt-3">
         💳 Secure checkout • 🚚 Free shipping over $100
       </p>

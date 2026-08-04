@@ -3,11 +3,13 @@ import { ProductCatalog } from '@features/product-catalog/ProductCatalog'
 import { ShoppingCart } from '@features/shopping-cart/ShoppingCart'
 import { PRODUCTS } from '@shared/data/products'
 import type { Product, CartItem } from '@shared/types'
+import { trackAddToCart } from '@shared/utils/metrics'
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
 
   const handleAddToCart = (product: Product) => {
+    trackAddToCart()
     setCartItems(prevItems => {
       const existingItem = prevItems.find(item => item.id === product.id)
 
