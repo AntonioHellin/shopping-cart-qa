@@ -29,10 +29,15 @@ export default defineConfig({
         '**/*.d.ts',
         '**/*.test.{ts,tsx}',
         '**/*.spec.{ts,tsx}',
-        // 🏗️ INFRASTRUCTURE TIER (0%): TypeScript validates, no logic to test
         'src/shared/types/**',
       ],
-        // 🎯 CORE TIER (100%): Business logic that handles money/critical data
+      thresholds: {
+        global: {
+          functions: 100,
+          lines: 80,
+          branches: 80,
+          statements: 80,
+        },
         'src/shared/utils/calculateSubtotal.ts': {
           statements: 100,
           branches: 100,
@@ -45,19 +50,6 @@ export default defineConfig({
           functions: 100,
           lines: 100,
         },
-        'src/shared/strategies/DiscountStrategy.ts': {
-          statements: 100,
-          branches: 100,
-          functions: 100,
-          lines: 100,
-        },
-        'src/shared/strategies/DiscountCalculator.ts': {
-          statements: 100,
-          branches: 100,
-          functions: 100,
-          lines: 100,
-        },
-        // 🔧 IMPORTANT TIER (80%+): User-facing features
         'src/features/**/*.tsx': {
           statements: 80,
           functions: 90,

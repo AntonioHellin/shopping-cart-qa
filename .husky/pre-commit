@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+echo "🔍 Running Quality Gates (pre-commit)..."
+echo "📝 Checking code style..."
+pnpm run lint || { echo "❌ ESLint failed!"; exit 1; }
+echo "✅ Pre-commit gates passed!"
