@@ -76,7 +76,16 @@ function App() {
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <ProductCatalog products={PRODUCTS} onAddToCart={handleAddToCart} />
-          <ShoppingCart items={cartItems} onRemoveItem={handleRemoveItem} />
+          <Sentry.ErrorBoundary
+            fallback={
+              <div className="bg-red-50 p-6 rounded-xl border border-red-200 text-red-700 font-semibold shadow-sm">
+                Something went wrong with the shopping cart
+              </div>
+            }
+            showDialog
+          >
+            <ShoppingCart items={cartItems} onRemoveItem={handleRemoveItem} />
+          </Sentry.ErrorBoundary>
         </div>
       </main>
 

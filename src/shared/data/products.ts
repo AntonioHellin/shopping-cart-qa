@@ -28,5 +28,12 @@ export const PRODUCTS: Product[] = [
     description: '4K UHD display',
     price: 349.99,
     emoji: '🖥️'
+  },
+  {
+    id: 'test-error',
+    name: 'Buggy Item (Error Test)',
+    description: 'Triggers Sentry ErrorBoundary',
+    price: 0.00,
+    emoji: '💥'
   }
 ]

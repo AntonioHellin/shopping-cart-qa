@@ -1,5 +1,6 @@
 import type { Product } from '@shared/types'
 import { formatPrice } from '@shared/utils/formatPrice'
+import * as Sentry from '@sentry/react'
 
 interface ProductCardProps {
   product: Product
@@ -10,6 +11,20 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   // ✅ REFACTORED: Using formatPrice utility instead of primitive obsession
   // ✅ REFACTORED: Removed unused calculateBulkDiscount function (dead code)
   // TODO: Extract button component to shared/components for reusability
+
+  const handleAddToCart = () => {
+    Sentry.addBreadcrumb({
+      message: 'Added item to cart',
+      category: 'cart',
+      level: 'info',
+      data: {
+        productId: product.id,
+        productName: product.name,
+        price: product.price,
+      },
+    })
+    onAddToCart(product)
+  }
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
@@ -22,8 +37,8 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
       </div>
       <p className="text-2xl font-bold text-indigo-600 mt-4">{formatPrice(product.price)}</p>
       <button
-        onClick={() => onAddToCart(product)}
-        className="w-full mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+        onClick={handleAddToCart}
+        className="w-full mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors font-medium cursor-pointer"
       >
         Add to Cart
       </button>

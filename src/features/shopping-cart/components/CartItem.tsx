@@ -7,6 +7,9 @@ interface CartItemProps {
 }
 
 export function CartItem({ item, onRemove }: CartItemProps) {
+  if (item.id === 'test-error') {
+    throw new Error('Test error boundary - intentional')
+  }
   // ✅ REFACTORED: Removed unused validateQuantity function (dead code)
   // ✅ REFACTORED: Removed itemPrice primitive obsession, using formatPrice utility directly
 
