@@ -3,6 +3,7 @@ import { ProductCatalog } from '@features/product-catalog/ProductCatalog'
 import { ShoppingCart } from '@features/shopping-cart/ShoppingCart'
 import { PRODUCTS } from '@shared/data/products'
 import type { Product, CartItem } from '@shared/types'
+import { TestErrorButton } from './components/TestErrorButton'
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
@@ -41,6 +42,7 @@ function App() {
               <p className="text-gray-600 mt-1 text-sm">Your one-stop shop for tech products</p>
             </div>
             <div className="flex items-center gap-4">
+              {import.meta.env.DEV && <TestErrorButton />}
               <div className="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full font-semibold text-sm">
                 {itemCount} items
               </div>
