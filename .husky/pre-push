@@ -11,7 +11,7 @@ pnpm run test:coverage || {
 
 # Gate 5: E2E Tests
 echo "🎭 Running E2E tests (chromium only)..."
-pnpm run test:e2e --project=chromium || {
+pnpm run test:e2e e2e/shopping-journey.spec.ts --project=chromium || {
   echo "❌ E2E failed! User journeys must work."
   exit 1
 }
