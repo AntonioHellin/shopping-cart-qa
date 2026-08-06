@@ -102,7 +102,16 @@ export function initializeSentry() {
       category: 'app.lifecycle',
       level: 'info',
     })
+
+    // 📊 Emit initial verification metrics for Sentry setup wizard
+    Sentry.metrics.count('button_click', 1)
+    Sentry.metrics.gauge('page_load_time', 150)
+    Sentry.metrics.gauge('cart.items.count', 0, {
+      attributes: { category: 'business' },
+      unit: 'item',
+    })
+
     console.log('✅ Sentry initialized')
-    console.log('🔍 Test breadcrumb added')
+    console.log('🔍 Test breadcrumb and verification metrics emitted')
   }
 }

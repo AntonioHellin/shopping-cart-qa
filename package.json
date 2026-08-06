@@ -22,7 +22,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@sentry/react": "^10.20.0",
+    "@sentry/react": "^10.69.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

@@ -11,16 +11,21 @@ function App() {
   const handleAddToCart = (product: Product) => {
     setCartItems(prevItems => {
       const existingItem = prevItems.find(item => item.id === product.id)
+      const newItems = existingItem
+        ? prevItems.map(item =>
+            item.id === product.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          )
+        : [...prevItems, { ...product, quantity: 1 }]
 
-      if (existingItem) {
-        return prevItems.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
-      }
+      // Business metric — gauge captura snapshot del valor actual
+      Sentry.metrics.gauge('cart.items.count', newItems.length, {
+        attributes: { category: 'business' },
+        unit: 'item',
+      })
 
-      return [...prevItems, { ...product, quantity: 1 }]
+      return newItems
     })
   }
 

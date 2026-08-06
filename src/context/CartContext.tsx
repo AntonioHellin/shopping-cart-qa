@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import type { ReactNode } from 'react'
 import type { CartItem, Product } from '@shared/types'
 import { CartContext } from './CartContextValue'
+import * as Sentry from '@sentry/react'
 
 interface CartProviderProps {
   children: ReactNode
@@ -13,14 +14,21 @@ export function CartProvider({ children }: CartProviderProps) {
   const addItem = useCallback((product: Product, quantity = 1) => {
     setItems((prev) => {
       const existing = prev.find((it) => it.id === product.id)
-      if (existing) {
-        return prev.map((it) =>
-          it.id === product.id
-            ? { ...it, quantity: it.quantity + quantity }
-            : it,
-        )
-      }
-      return [...prev, { ...product, quantity }]
+      const newItems = existing
+        ? prev.map((it) =>
+            it.id === product.id
+              ? { ...it, quantity: it.quantity + quantity }
+              : it,
+          )
+        : [...prev, { ...product, quantity }]
+
+      // Business metric — gauge captura snapshot del valor actual
+      Sentry.metrics.gauge('cart.items.count', newItems.length, {
+        attributes: { category: 'business' },
+        unit: 'item',
+      })
+
+      return newItems
     })
   }, [])
 
