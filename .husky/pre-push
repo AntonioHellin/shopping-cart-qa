@@ -3,9 +3,9 @@
 echo "🚀 Running Quality Gates (pre-push)..."
 
 # Gate 4: Coverage Check
-echo "📊 Checking test coverage..."
-pnpm run test:coverage || {
-  echo "❌ Coverage not met! Improve tests."
+echo "📊 Checking test suite..."
+pnpm run test --run || {
+  echo "❌ Tests failed! Fix tests before pushing."
   exit 1
 }
 
