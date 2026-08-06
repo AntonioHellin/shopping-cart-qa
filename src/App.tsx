@@ -43,6 +43,14 @@ function App() {
     throw new Error('This is a test error from Sentry! Check your dashboard.')
   }
 
+  // 🚨 Trigger High Error Rate Spike for Sentry Alert Rule Testing
+  const handleTriggerHighErrorRate = () => {
+    Array.from({ length: 15 }).forEach((_, i) => {
+      Sentry.captureException(new Error(`Test alert - high error rate (#${i + 1})`))
+    })
+    console.log('🚨 15 test errors sent to Sentry to trigger High Error Rate alert!')
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100">
       <header className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-indigo-100 sticky top-0 z-10">
@@ -54,16 +62,25 @@ function App() {
               </h1>
               <p className="text-gray-600 mt-1 text-sm">Your one-stop shop for tech products</p>
             </div>
-            <div className="flex items-center gap-4">
-              {/* 🔥 Sentry Test Button - Only visible in development */}
+            <div className="flex items-center gap-3">
+              {/* 🔥 Sentry Test Buttons - Only visible in development */}
               {import.meta.env.DEV && (
-                <button
-                  onClick={handleTestError}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold text-sm transition-colors shadow-md"
-                  title="Test Sentry error tracking"
-                >
-                  🔥 Test Error
-                </button>
+                <>
+                  <button
+                    onClick={handleTestError}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg font-semibold text-xs transition-colors shadow-md cursor-pointer"
+                    title="Test single Sentry error tracking"
+                  >
+                    🔥 Test Error
+                  </button>
+                  <button
+                    onClick={handleTriggerHighErrorRate}
+                    className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-lg font-semibold text-xs transition-colors shadow-md cursor-pointer"
+                    title="Send 15 errors to trigger High Error Rate alert"
+                  >
+                    🚨 Trigger Alert Spike
+                  </button>
+                </>
               )}
               <div className="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full font-semibold text-sm">
                 {itemCount} items
