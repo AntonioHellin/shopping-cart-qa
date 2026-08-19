@@ -1,4 +1,6 @@
-const MAX_ITEMS = Number(import.meta.env.VITE_MAX_CART_ITEMS) || 99
+import { env } from '../config/env'
+
+const MAX_ITEMS = env.VITE_MAX_CART_ITEMS
 
 export function useQuantityValidation() {
   const validate = (quantity: number) => {
