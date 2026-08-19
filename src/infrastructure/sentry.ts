@@ -8,7 +8,7 @@ import * as Sentry from '@sentry/react'
 // 4. Update vite.config.ts proxy with your org/project IDs
 
 const SENTRY_DSN =
-  'https://examplekey@o4508888888888888.ingest.us.sentry.io/4508888888888888'
+  'https://19225d5d17e30ef55eee20e658bdcbf9@o4511859633160192.ingest.de.sentry.io/4511859637026896'
 
 /**
  * Initialize Sentry error tracking
