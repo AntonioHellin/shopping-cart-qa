@@ -1,6 +1,7 @@
 import type { Product } from '@shared/types'
 import { formatPrice } from '@shared/utils/formatPrice'
 import * as Sentry from '@sentry/react'
+import DOMPurify from 'dompurify'
 
 interface ProductCardProps {
   product: Product
@@ -8,9 +9,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
-  // ✅ REFACTORED: Using formatPrice utility instead of primitive obsession
-  // ✅ REFACTORED: Removed unused calculateBulkDiscount function (dead code)
-  // TODO: Extract button component to shared/components for reusability
+  // 🛡️ XSS Protection: Sanitize user-provided/external product name
+  const safeName = DOMPurify.sanitize(product.name)
 
   const handleAddToCart = () => {
     // 🍞 Breadcrumb: Track user adding items to cart
@@ -20,7 +20,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
       level: 'info',
       data: {
         productId: product.id,
-        productName: product.name,
+        productName: safeName,
         price: product.price,
       },
     })
@@ -32,7 +32,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
     <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
       <div className="flex items-start justify-between">
         <div>
-          <h3 className="text-xl font-bold text-gray-900">{product.name}</h3>
+          <h3 className="text-xl font-bold text-gray-900">{safeName}</h3>
           <p className="text-sm text-gray-500 mt-1">{product.description}</p>
         </div>
         <span className="text-2xl">{product.emoji}</span>

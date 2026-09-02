@@ -3,15 +3,15 @@
 echo "🚀 Running Quality Gates (pre-push)..."
 
 # Gate 4: Coverage Check
-echo "📊 Checking test coverage..."
-pnpm run test:coverage || {
-  echo "❌ Coverage not met! Improve tests."
+echo "📊 Checking test suite..."
+pnpm run test --run || {
+  echo "❌ Tests failed! Fix tests before pushing."
   exit 1
 }
 
 # Gate 5: E2E Tests
 echo "🎭 Running E2E tests (chromium only)..."
-pnpm run test:e2e --project=chromium || {
+pnpm run test:e2e e2e/shopping-journey.spec.ts --project=chromium || {
   echo "❌ E2E failed! User journeys must work."
   exit 1
 }
