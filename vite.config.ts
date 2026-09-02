@@ -24,10 +24,10 @@ export default defineConfig({
     proxy: {
       '/tunnel': {
         // Students: Replace with your actual org ID and region from Sentry DSN
-        target: 'https://o4508888888888888.ingest.us.sentry.io',
+        target: 'https://o4511859633160192.ingest.de.sentry.io',
         changeOrigin: true,
         // Students: Replace PROJECT-ID with your actual project ID
-        rewrite: () => '/api/4508888888888888/envelope/',
+        rewrite: () => '/api/4511859637026896/envelope/',
       },
     },
   },
