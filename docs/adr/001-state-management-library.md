@@ -1,7 +1,8 @@
 # ADR-001: State Management Library Selection
 
 **Date**: 2026-09-15
-**Status**: Accepted
+**Status**: Superseded by ADR-002
+**Superseded on**: 2026-11-20
 
 ## Context
 
@@ -55,3 +56,9 @@ We will use **Zustand** for global state management in the Shopping Cart applica
 - [Zustand Documentation](https://zustand.docs.pmnd.rs/)
 - [Bundlephobia: Zustand](https://bundlephobia.com/package/zustand)
 - [React State Management Benchmark](https://github.com/pmndrs/zustand)
+
+## Superseded By
+
+[ADR-002: Migrate to Redux Toolkit](./002-migrate-to-redux-toolkit.md)
+
+Original decision worked for 2 months but app outgrew Zustand's simplicity.
