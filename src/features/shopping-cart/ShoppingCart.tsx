@@ -42,7 +42,7 @@ export function ShoppingCart({ items, onRemoveItem }: ShoppingCartProps) {
         {items.length === 0 ? (
           <div className="text-center py-12 bg-gray-50 rounded-xl">
             <p className="text-gray-600 font-medium">No items</p>
-            <button className="mt-4 text-indigo-600 underline">Click here</button>
+            <button className="mt-4 text-indigo-600 underline">Browse Products</button>
           </div>
         ) : (
           <div className="space-y-3" role="list" aria-label="Cart items">

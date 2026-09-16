@@ -44,9 +44,7 @@ export function CartSummary({ subtotal }: CartSummaryProps) {
             ? 'bg-gradient-to-r from-gray-300 to-gray-400 text-white cursor-not-allowed'
             : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700'
         }`}
-      >
-        Continue
-      </button>
+      >Continue to Payment</button>
       <p className="text-xs text-gray-400 text-center mt-3">
         <span role="img" aria-label="Credit card">
           💳
