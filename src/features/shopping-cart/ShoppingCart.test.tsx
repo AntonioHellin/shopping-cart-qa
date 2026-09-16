@@ -13,7 +13,9 @@ describe('ShoppingCart Integration', () => {
   it('should display empty cart message when no items', () => {
     render(<ShoppingCart items={[]} onRemoveItem={vi.fn()} />)
 
-    expect(screen.getByText('No items')).toBeInTheDocument()
+    expect(screen.getByText('Your cart is ready for items!')).toBeInTheDocument()
+    expect(screen.getByText('Browse our products and discover great deals')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Browse Products' })).toBeInTheDocument()
   })
 
   it('should display all cart items', () => {

@@ -40,9 +40,29 @@ export function ShoppingCart({ items, onRemoveItem }: ShoppingCartProps) {
         </div>
 
         {items.length === 0 ? (
-          <div className="text-center py-12 bg-gray-50 rounded-xl">
-            <p className="text-gray-600 font-medium">No items</p>
-            <button className="mt-4 text-indigo-600 underline">Browse Products</button>
+          <div className="empty-cart-state text-center py-12 bg-gray-50 rounded-xl px-4">
+            {/* 1. Friendly visual */}
+            <span className="text-4xl mb-3 inline-block" role="img" aria-label="Cart">
+              🛒
+            </span>
+
+            {/* 2. Positive heading */}
+            <h3 className="text-lg font-medium text-gray-900">
+              Your cart is ready for items!
+            </h3>
+
+            {/* 3. Helpful guidance */}
+            <p className="text-sm text-gray-600 mt-1">
+              Browse our products and discover great deals
+            </p>
+
+            {/* 4. Clear CTA */}
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="mt-4 py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
+            >
+              Browse Products
+            </button>
           </div>
         ) : (
           <div className="space-y-3" role="list" aria-label="Cart items">
