@@ -40,7 +40,12 @@ export class ShoppingCartPage extends BasePage {
 
   async getItemQuantity(itemIndex: number): Promise<number> {
     const item = this.cartItems.nth(itemIndex)
-    const qtyText = await item.getByText(/qty:/i).textContent()
+    const input = item.locator('input[type="number"]')
+    if ((await input.count()) > 0) {
+      const val = await input.inputValue()
+      return parseInt(val || '0')
+    }
+    const qtyText = await item.getByText(/qty/i).textContent()
     const match = qtyText?.match(/(\d+)/)
     return match ? parseInt(match[1]) : 0
   }
