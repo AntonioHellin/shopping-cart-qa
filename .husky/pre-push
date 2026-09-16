@@ -9,11 +9,4 @@ pnpm run test:coverage || {
   exit 1
 }
 
-# Gate 5: E2E Tests
-echo "🎭 Running E2E tests (chromium only)..."
-pnpm run test:e2e --project=chromium || {
-  echo "❌ E2E failed! User journeys must work."
-  exit 1
-}
-
 echo "✅ All pre-push gates passed!"

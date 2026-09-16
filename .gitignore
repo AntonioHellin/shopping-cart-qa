@@ -29,3 +29,8 @@ slides/
 
 *storybook.log
 storybook-static
+# Test output and artifacts
+coverage/
+playwright-report/
+test-results/
+e2e/visual-regression.spec.ts-snapshots/*-win32.png
