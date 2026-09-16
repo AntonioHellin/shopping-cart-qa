@@ -10,12 +10,17 @@ describe('ShoppingCart Integration', () => {
     { id: '2', name: 'Mouse', description: 'Wireless', price: 29.99, emoji: '🖱️', quantity: 1 }
   ]
 
-  it('should display empty cart message when no items', () => {
+  it('should display empty cart message when no items', async () => {
+    const user = userEvent.setup()
+    window.scrollTo = vi.fn()
     render(<ShoppingCart items={[]} onRemoveItem={vi.fn()} />)
 
     expect(screen.getByText('Your cart is ready for items!')).toBeInTheDocument()
     expect(screen.getByText('Browse our products and discover great deals')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Browse Products' })).toBeInTheDocument()
+    const cta = screen.getByRole('button', { name: 'Browse Products' })
+    expect(cta).toBeInTheDocument()
+    await user.click(cta)
+    expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' })
   })
 
   it('should display all cart items', () => {
