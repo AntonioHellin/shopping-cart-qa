@@ -46,4 +46,12 @@ describe('CartSummary', () => {
     const button = screen.getByRole('button', { name: /proceed to checkout/i })
     expect(button).not.toBeDisabled()
   })
+
+  it('should render view cart icon button with accessible dynamic aria-label', () => {
+    render(<CartSummary subtotal={100} itemCount={3} />)
+    const cartButton = screen.getByRole('button', {
+      name: 'View shopping cart with 3 items',
+    })
+    expect(cartButton).toBeInTheDocument()
+  })
 })

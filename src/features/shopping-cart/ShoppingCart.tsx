@@ -53,7 +53,7 @@ export function ShoppingCart({ items, onRemoveItem }: ShoppingCartProps) {
           </div>
         )}
 
-        <CartSummary subtotal={subtotal} />
+        <CartSummary subtotal={subtotal} itemCount={itemCount} />
       </div>
     </section>
   )

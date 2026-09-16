@@ -3,9 +3,11 @@ import { DiscountCalculator } from '@shared/strategies/DiscountCalculator'
 
 interface CartSummaryProps {
   subtotal: number
+  itemCount?: number
+  onViewCart?: () => void
 }
 
-export function CartSummary({ subtotal }: CartSummaryProps) {
+export function CartSummary({ subtotal, itemCount = 0, onViewCart }: CartSummaryProps) {
   // ✅ REFACTORED: Using Strategy Pattern (Open/Closed Principle)
   // Easy to add new discount types without modifying this code
   const strategy = DiscountCalculator.getStrategyForOrder(subtotal)
@@ -31,16 +33,26 @@ export function CartSummary({ subtotal }: CartSummaryProps) {
           </span>
         </div>
       </div>
-      <button
-        disabled={subtotal === 0}
-        className={`w-full py-3 px-4 rounded-xl font-semibold shadow-md ${
-          subtotal === 0
-            ? 'bg-gradient-to-r from-gray-300 to-gray-400 text-white cursor-not-allowed'
-            : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700'
-        }`}
-      >
-        Proceed to Checkout
-      </button>
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={onViewCart}
+          aria-label={`View shopping cart with ${itemCount} items`}
+          className="p-3 rounded-xl border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors flex items-center justify-center text-xl"
+        >
+          🛒
+        </button>
+        <button
+          disabled={subtotal === 0}
+          className={`flex-1 py-3 px-4 rounded-xl font-semibold shadow-md ${
+            subtotal === 0
+              ? 'bg-gradient-to-r from-gray-300 to-gray-400 text-white cursor-not-allowed'
+              : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700'
+          }`}
+        >
+          Proceed to Checkout
+        </button>
+      </div>
       <p className="text-xs text-gray-400 text-center mt-3">
         💳 Secure checkout • 🚚 Free shipping over $100
       </p>
