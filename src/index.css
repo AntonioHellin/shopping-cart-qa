@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+/* ♿ Keyboard Accessibility - WCAG 2.1 Level A Focus Visible */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid #4A90E2;
+  outline-offset: 2px;
+}
